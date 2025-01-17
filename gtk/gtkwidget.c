@@ -16916,7 +16916,7 @@ get_auto_child_hash (GtkWidget *widget,
     }
 
   auto_child_hash =
-    g_hash_table_lookup (auto_children, GSIZE_TO_POINTER (type));
+    g_hash_table_lookup (auto_children, GTYPE_TO_POINTER (type));
 
   if (!auto_child_hash && create)
     {
@@ -16926,7 +16926,7 @@ get_auto_child_hash (GtkWidget *widget,
 					       (GDestroyNotify)g_object_unref);
 
       g_hash_table_insert (auto_children,
-			   GSIZE_TO_POINTER (type),
+			   GTYPE_TO_POINTER (type),
 			   auto_child_hash);
     }
 

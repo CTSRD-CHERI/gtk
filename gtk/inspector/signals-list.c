@@ -76,10 +76,10 @@ get_types (GObject *object, guint *length)
   type = ((GTypeInstance*)object)->g_class->g_type;
   while (type)
     {
-      g_hash_table_add (seen, GSIZE_TO_POINTER (type));
+      g_hash_table_add (seen, GTYPE_TO_POINTER (type));
       iface = g_type_interfaces (type, NULL);
       for (i = 0; iface[i]; i++)
-        g_hash_table_add (seen, GSIZE_TO_POINTER (iface[i]));
+        g_hash_table_add (seen, GTYPE_TO_POINTER (iface[i]));
       g_free (iface);
       type = g_type_parent (type);
     }

@@ -93,7 +93,7 @@ add_type_count (GtkInspectorStatistics *sl, GType type)
   for (i = 0; i < n_children; i++)
     cumulative += add_type_count (sl, children[i]);
 
-  data = g_hash_table_lookup (sl->priv->counts, GSIZE_TO_POINTER (type));
+  data = g_hash_table_lookup (sl->priv->counts, GTYPE_TO_POINTER (type));
   if (!data)
     {
       data = g_new0 (TypeData, 1);
@@ -107,7 +107,7 @@ add_type_count (GtkInspectorStatistics *sl, GType type)
                           COLUMN_SELF_DATA, data->self,
                           COLUMN_CUMULATIVE_DATA, data->cumulative,
                           -1);
-      g_hash_table_insert (sl->priv->counts, GSIZE_TO_POINTER (type), data);
+      g_hash_table_insert (sl->priv->counts, GTYPE_TO_POINTER (type), data);
     }
 
   self = g_type_get_instance_count (type);
