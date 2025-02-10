@@ -28,9 +28,15 @@ struct _GtkCssNodeStyleCache {
   GHashTable  *children;
 };
 
+#if defined(__CHERI_PURE_CAPABILITY__)
+#define UNPACK_DECLARATION(packed) ((GtkCssNodeDeclaration *) ((guintptr)packed & ~0x3))
+#define UNPACK_FLAGS(packed) ((ptraddr_t)packed & 0x3)
+#define PACK(decl, first_child, last_child) (gpointer) ((guintptr) decl | ((first_child) ? 0x2 : 0) | ((last_child) ? 0x1 : 0))
+#else   // !__CHERI_PURE_CAPABILITY__
 #define UNPACK_DECLARATION(packed) ((GtkCssNodeDeclaration *) (GPOINTER_TO_SIZE (packed) & ~0x3))
 #define UNPACK_FLAGS(packed) (GPOINTER_TO_SIZE (packed) & 0x3)
 #define PACK(decl, first_child, last_child) GSIZE_TO_POINTER (GPOINTER_TO_SIZE (decl) | ((first_child) ? 0x2 : 0) | ((last_child) ? 0x1 : 0))
+#endif  // !__CHERI_PURE_CAPABILITY__
 
 GtkCssNodeStyleCache *
 gtk_css_node_style_cache_new (GtkCssStyle *style)
