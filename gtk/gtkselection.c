@@ -3345,8 +3345,11 @@ gtk_selection_bytes_per_item (gint format)
       return sizeof (short);
       break;
     case 32:
+#if defined(__CHERI_PURE_CAPABILITY__)
+      return sizeof (void *);
+#else
       return sizeof (long);
-      break;
+#endif
     default:
       g_assert_not_reached();
     }
